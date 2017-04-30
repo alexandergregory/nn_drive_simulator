@@ -65,6 +65,7 @@ from keras.layers import MaxPooling2D
 
 model = Sequential()
 model.add(Lambda(lambda x: x / 255.0 - 0.5 , input_shape=(160,320,3)))
+model.add(Cropping2D(cropping=((70,25), (0,0))))
 model.add(Convolution2D(6,5,5, activation="relu"))
 model.add(MaxPooling2D())
 model.add(Convolution2D(6,5,5,activation="relu"))
