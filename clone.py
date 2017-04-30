@@ -32,8 +32,8 @@ for line in lines:
     right_path = 'data/IMG/' + right_filename
 
     img_center = cv2.imread(center_path)
-    img_left =  = cv2.imread(left_path)
-    img_right =  = cv2.imread(right_path)
+    img_left = cv2.imread(left_path)
+    img_right = cv2.imread(right_path)
 
 
     centre_measurement = float(line[3])
