@@ -18,20 +18,21 @@ from sklearn.model_selection import train_test_split
 train_samples, validation_samples = train_test_split(lines, test_size=0.2)
 
 def generator(samples, batch_size=32):
+    samples = shuffle(samples)
     num_samples = len(samples)
-    while 1:
-        #sklearn.utils.shuffle(samples)
+    while 1: 
         for offset in range(0, num_samples, batch_size):
             batch_samples = samples[offset:offset+batch_size]
 
             images = []
             measurements = []
-            for line in lines:
-                center_source_path = line[0]
-                left_source_path = line[1]
-                right_source_path = line[2]
 
-                steering_center = float(line[3])
+            for batch_sample in batch_samples:
+                center_source_path = batch_sample[0]
+                left_source_path = batch_sample[1]
+                right_source_path = batch_sample[2]
+
+                steering_center = float(batch_sample[3])
                 correction = 0.2 #can tune this parameter
 
                 center_filename = center_source_path.split('/')[-1]
@@ -45,12 +46,12 @@ def generator(samples, batch_size=32):
                 img_center = cv2.imread(center_path)
                 img_left = cv2.imread(left_path)
                 img_right = cv2.imread(right_path)
-                centre_measurement = float(line[3])
-                left_measurement = centre_measurement + correction
-                right_measurement = centre_measurement - correction
+
+                left_measurement = steering_center + correction
+                right_measurement = steering_center - correction
 
                 images.append(img_center)
-                measurements.append(centre_measurement)
+                measurements.append(steering_center)
                 images.append(img_left)
                 measurements.append(left_measurement)
                 images.append(img_right)
