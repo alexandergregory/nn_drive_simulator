@@ -59,7 +59,7 @@ def generator(samples, batch_size=32):
                 for i in range(0, len(images), batch_size):
                     image_batch = images[i:i+batch_size]
                     measurement_batch = measurements[i:i+batch_size]
-                    images, measurements = shuffle(images, measurements)
+                    images, measurements = sklearn.utils.shuffle(images, measurements)
 
                     augmented_images, augmented_measurements = [], []
                     for image, measurement in zip(images, measurements):
