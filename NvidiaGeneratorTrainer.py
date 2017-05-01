@@ -56,18 +56,23 @@ def generator(samples, batch_size=32):
                 images.append(img_right)
                 measurements.append(right_measurement)
     
-            augmented_images, augmented_measurements = [], []
-            for image, measurement in zip(images, measurements):
-                augmented_images.append(image)
-                augmented_measurements.append(measurement)
-                augmented_images.append(cv2.flip(image,1))
-                augmented_measurements.append(measurement*-1.0)
+                for i in range(0, len(images), batch_size):
+                    image_batch = images[i:i+batch_size]
+                    measurement_batch = measurements[i:i+batch_size]
+                    images, measurements = shuffle(images, measurements)
 
-            X_train = np.array(augmented_images)
-            y_train = np.array(augmented_measurements)
+                    augmented_images, augmented_measurements = [], []
+                    for image, measurement in zip(images, measurements):
+                        augmented_images.append(image)
+                        augmented_measurements.append(measurement)
+                        augmented_images.append(cv2.flip(image,1))
+                        augmented_measurements.append(measurement*-1.0)
 
-            yield sklearn.utils.shuffle({'input_1': X_train},{'output': y_train})
-    
+                X_train = np.array(augmented_images)
+                y_train = np.array(augmented_measurements)
+
+                yield sklearn.utils.shuffle({'input_1': X_train},{'output': y_train})
+        
 
 train_generator = generator(train_samples, batch_size=32)
 validation_generator = generator(validation_samples, batch_size=32)
