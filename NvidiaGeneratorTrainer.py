@@ -66,7 +66,7 @@ def generator(samples, batch_size=32):
             X_train = np.array(augmented_images)
             y_train = np.array(augmented_measurements)
 
-            yield sklearn.utils.shuffle(X_train, y_train)
+            yield sklearn.utils.shuffle({'input_1': X_train},{'output': y_train})
     
 
 train_generator = generator(train_samples, batch_size=32)
