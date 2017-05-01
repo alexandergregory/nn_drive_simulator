@@ -20,7 +20,7 @@ train_samples, validation_samples = train_test_split(lines, test_size=0.2)
 def generator(samples, batch_size=32):
     num_samples = len(samples)
     while 1:
-        sklearn.utils.shuffle(samples)
+        #sklearn.utils.shuffle(samples)
         for offset in range(0, num_samples, batch_size):
             batch_samples = samples[offset:offset+batch_size]
 
