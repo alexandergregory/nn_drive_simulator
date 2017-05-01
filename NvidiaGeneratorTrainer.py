@@ -56,7 +56,7 @@ def generator(samples, batch_size=32):
                 measurements.append(left_measurement)
                 images.append(img_right)
                 measurements.append(right_measurement)
-                print(right_measurement)
+#                print(right_measurement)
     
                 for i in range(0, len(images), batch_size):
                     image_batch = images[i:i+batch_size]
@@ -101,7 +101,7 @@ model.add(Dense(10))
 model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
-model.fit_generator(train_generator, samples_per_epoch= len(train_samples), validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=3)
+model.fit_generator(train_generator, samples_per_epoch = 80016, validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=3)
 
 model.save('Nvidiamodel.h5')
 
