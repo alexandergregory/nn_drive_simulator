@@ -30,6 +30,7 @@ def generator(samples, batch_size=32):
                 center_source_path = batch_sample[0]
                 left_source_path = batch_sample[1]
                 right_source_path = batch_sample[2]
+                #print('right, ', right_source_path)
 
                 steering_center = float(batch_sample[3])
                 correction = 0.2 #can tune this parameter
@@ -55,6 +56,7 @@ def generator(samples, batch_size=32):
                 measurements.append(left_measurement)
                 images.append(img_right)
                 measurements.append(right_measurement)
+                print(right_measurement)
     
                 for i in range(0, len(images), batch_size):
                     image_batch = images[i:i+batch_size]
@@ -71,7 +73,7 @@ def generator(samples, batch_size=32):
                 X_train = np.array(augmented_images)
                 y_train = np.array(augmented_measurements)
 
-                yield sklearn.utils.shuffle(X_train, y_train)
+                yield (X_train, y_train)
         
 
 train_generator = generator(train_samples, batch_size=32)
@@ -85,7 +87,7 @@ from keras.layers import Flatten, Dense, Lambda
 from keras.layers import Convolution2D, Cropping2D, MaxPooling2D
 
 model = Sequential()
-model.add(Lambda(lambda x: x / 255.0 - 0.5))
+model.add(Lambda(lambda x: x / 255.0 - 0.5, input_shape=(160, 320, 3)))
 model.add(Cropping2D(cropping=((70,25), (0,0))))
 model.add(Convolution2D(24,5,5, subsample=(2,2), activation="relu"))
 model.add(Convolution2D(36,5,5, subsample=(2,2), activation="relu"))
