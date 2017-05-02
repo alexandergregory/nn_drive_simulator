@@ -17,11 +17,11 @@ del(lines[0])
 from sklearn.model_selection import train_test_split
 train_samples, validation_samples = train_test_split(lines, test_size=0.2)
 
-def generator(samples, batch_size = 32):
+def generator(samples, batch_size = 96):
     num_samples = len(samples)
     while 1: 
-        for offset in range(0, num_samples, batch_size):
-            batch_samples = samples[offset:offset+batch_size]
+        for offset in range(0, num_samples, batch_size/3):
+            batch_samples = samples[offset:offset+batch_size/3]
 
             images = []
             measurements = []
