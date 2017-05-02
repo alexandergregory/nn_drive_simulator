@@ -5,7 +5,7 @@ import os
 import sklearn
 
 lines = []
-with open('data/driving_log.csv') as csvfile:
+with open('AlexData/driving_log.csv') as csvfile:
     reader = csv.reader(csvfile)
     for line in reader:
         lines.append(line)
@@ -17,10 +17,10 @@ del(lines[0])
 from sklearn.model_selection import train_test_split
 train_samples, validation_samples = train_test_split(lines, test_size=0.2)
 
-def generator(samples, batch_size = 96):
+def generator(samples, batch_size = 300):
     num_samples = len(samples)
     while 1: 
-        for offset in range(0, num_samples, int(batch_size/3):
+        for offset in range(0, num_samples, int(batch_size/3)):
             batch_samples = samples[offset:offset+ int(batch_size/3)]
 
             images = []
@@ -33,15 +33,15 @@ def generator(samples, batch_size = 96):
                 #print('right, ', right_source_path)
 
                 steering_center = float(batch_sample[3])
-                correction = 0.2 #can tune this parameter
+                correction = 0.25 #can tune this parameter
 
                 center_filename = center_source_path.split('/')[-1]
                 left_filename = left_source_path.split('/')[-1]
                 right_filename = right_source_path.split('/')[-1]
                 
-                center_path = 'data/IMG/' + center_filename
-                left_path = 'data/IMG/' + left_filename
-                right_path = 'data/IMG/' + right_filename
+                center_path = 'AlexData/IMG/' + center_filename
+                left_path = 'AlexData/IMG/' + left_filename
+                right_path = 'AlexData/IMG/' + right_filename
 
                 img_center = cv2.imread(center_path)
                 img_left = cv2.imread(left_path)
@@ -76,8 +76,8 @@ def generator(samples, batch_size = 96):
                 yield (X_train, y_train)
         
 
-train_generator = generator(train_samples, batch_size=96)
-validation_generator = generator(validation_samples, batch_size=96)
+train_generator = generator(train_samples, batch_size=300)
+validation_generator = generator(validation_samples, batch_size=300)
 
 #    print('filename:' , filename)
 
@@ -101,7 +101,7 @@ model.add(Dense(10))
 model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
-model.fit_generator(train_generator, samples_per_epoch = 76800, validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=3)
+model.fit_generator(train_generator, samples_per_epoch = 76800, validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=5)
 
 model.save('Nvidiamodel.h5')
 
