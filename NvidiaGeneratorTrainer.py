@@ -76,8 +76,8 @@ def generator(samples, batch_size = 96):
                 yield (X_train, y_train)
         
 
-train_generator = generator(train_samples, batch_size=32)
-validation_generator = generator(validation_samples, batch_size=32)
+train_generator = generator(train_samples, batch_size=96)
+validation_generator = generator(validation_samples, batch_size=96)
 
 #    print('filename:' , filename)
 
