@@ -17,7 +17,7 @@ del(lines[0])
 from sklearn.model_selection import train_test_split
 train_samples, validation_samples = train_test_split(lines, test_size=0.2)
 
-def generator(samples, batch_size=32):
+def generator(samples, batch_size = 32):
     num_samples = len(samples)
     while 1: 
         for offset in range(0, num_samples, batch_size):
@@ -101,7 +101,7 @@ model.add(Dense(10))
 model.add(Dense(1))
 
 model.compile(loss='mse', optimizer='adam')
-model.fit_generator(train_generator, samples_per_epoch = 80016, validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=3)
+model.fit_generator(train_generator, samples_per_epoch = 76800, validation_data=validation_generator, nb_val_samples=len(validation_samples), nb_epoch=3)
 
 model.save('Nvidiamodel.h5')
 
